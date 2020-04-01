@@ -1,0 +1,16 @@
+localLogsDir: C:\Program Files\ssh
+servers:
+  - host: host1
+    username: name1
+    password: word1
+    logsDir: log1
+
+  - host: host2
+    username: name2
+    password: word2
+    logsDir: log2
+
+  - host: host3
+    username: name3
+    password: word3
+    logsDir: log3
