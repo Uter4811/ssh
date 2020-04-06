@@ -1,26 +1,31 @@
-import com.jcraft.jsch.*;
+import com.jcraft.jsch.ChannelSftp;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.Session;
 
+import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.util.Scanner;
+import java.util.Properties;
+
 
 /**
  * @author World
  */
 public class SSHReadFile {
+    static Properties properties = new Properties();
 
     public static void main(String args[]) {
-        String user = "john";
-        String password = "mypassword";
-        String host = "192.168.100.23";
-        int port = 22;
+        String user = properties.getProperty("user");
+        String password = properties.getProperty("password");
+        String host = properties.getProperty("host");
+        String port = properties.getProperty("port");;
         String remoteFile = "/home/john/test.txt";
+
 
         try {
             JSch jsch = new JSch();
-            Session session = jsch.getSession(user, host, port);
+            Session session = jsch.getSession(user, host, Integer.parseInt(port));
             session.setPassword(password);
             session.setConfig("StrictHostKeyChecking", "no");
             System.out.println("Establishing Connection...");
@@ -34,10 +39,10 @@ public class SSHReadFile {
             InputStream inputStream = sftpChannel.get(remoteFile);
             FileOutputStream outputStream = new FileOutputStream("C:\\Program Files\\ssh");
 
-            try (Scanner scanner = new Scanner(new InputStreamReader(inputStream))) {
-                while (scanner.hasNextLine()) {
-                    String line = scanner.nextLine();
-                    outputStream.write(line);;
+            try (BufferedReader reader = new BufferedReader(new InputStreamReader(System.in))) {
+                while (reader.readLine() != null){
+                    String line = reader.readLine();
+                    outputStream.write(Integer.parseInt(line));
                 }
                 inputStream.close();
                 outputStream.close();
